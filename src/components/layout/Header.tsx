@@ -1,41 +1,62 @@
 
 import { Link } from "react-router-dom";
+import { LogOut, User } from "lucide-react";
+import { useAuthStore } from "@/lib/authStore";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export function Header() {
+  const { isLoggedIn, user, logout } = useAuthStore();
+  const { toast } = useToast();
+
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out.",
+    });
+  };
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center">
-            <h2 className="text-2xl font-bold text-primary">FluidBlog</h2>
+    <header className="border-b bg-background">
+      <div className="container flex items-center justify-between h-16">
+        <Link to="/" className="text-2xl font-serif font-bold text-primary transition-colors hover:text-primary/90">
+          AmitBlogs
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-5 text-sm">
+          <Link to="/" className="text-foreground/80 hover:text-foreground transition-colors">
+            Home
           </Link>
-          <nav className="hidden md:flex gap-6">
-            <Link to="/" className="text-sm font-medium hover:text-primary">
-              Home
-            </Link>
-            <Link to="/blogs" className="text-sm font-medium hover:text-primary">
-              Blogs
-            </Link>
-            <Link to="/dashboard" className="text-sm font-medium hover:text-primary">
+          <Link to="/blogs" className="text-foreground/80 hover:text-foreground transition-colors">
+            Blogs
+          </Link>
+          {isLoggedIn && (
+            <Link to="/dashboard" className="text-foreground/80 hover:text-foreground transition-colors">
               Dashboard
             </Link>
-          </nav>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <Link to="/search">
-            <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-              <span className="sr-only">Search</span>
-            </Button>
-          </Link>
+          )}
+        </nav>
+
+        <div className="flex items-center gap-4">
           <ThemeToggle />
-          <Link to="/dashboard/new">
-            <Button className="hidden md:inline-flex">New Post</Button>
-          </Link>
+          
+          {isLoggedIn ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden md:inline-flex items-center text-sm">
+                <User className="mr-1 h-4 w-4" />
+                {user?.email?.split('@')[0]}
+              </span>
+              <Button variant="ghost" size="icon" onClick={handleLogout} title="Logout">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <Link to="/login">
+              <Button variant="outline" size="sm">Login</Button>
+            </Link>
+          )}
         </div>
       </div>
     </header>

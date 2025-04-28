@@ -57,7 +57,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 244 63% 60%;
+    --primary: 263 75% 63%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -66,15 +66,15 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
+    --accent: 267 40% 30%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62.8% 40.6%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 244 63% 60%;
+    --ring: 263 75% 63%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -107,5 +107,59 @@
 
   .animate-out {
     animation: fade-out 0.3s ease-out forwards;
+  }
+  
+  /* Glowing effects for dark mode */
+  .dark .glow-btn {
+    @apply relative overflow-hidden;
+    text-shadow: 0 0 10px rgba(155, 135, 245, 0.7);
+    box-shadow: 0 0 15px rgba(155, 135, 245, 0.4);
+  }
+  
+  .dark .glow-btn:hover {
+    box-shadow: 0 0 20px rgba(155, 135, 245, 0.7);
+  }
+  
+  .dark .glow-btn:after {
+    content: "";
+    @apply absolute inset-0 rounded-md opacity-0 transition-opacity duration-500;
+    background: radial-gradient(circle, rgba(155, 135, 245, 0.4) 0%, transparent 70%);
+  }
+  
+  .dark .glow-btn:hover:after {
+    @apply opacity-100;
+  }
+  
+  /* Additional dark mode text glows */
+  .dark .glow-text {
+    text-shadow: 0 0 8px rgba(155, 135, 245, 0.7);
+  }
+  
+  /* Neon border effect */
+  .dark .neon-border {
+    box-shadow: 0 0 10px rgba(155, 135, 245, 0.5), 
+                inset 0 0 10px rgba(155, 135, 245, 0.3);
+  }
+  
+  /* Interactive hover effects */
+  .hover-scale {
+    @apply transition-transform duration-300;
+  }
+  
+  .hover-scale:hover {
+    @apply transform scale-105;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-lift:hover {
+    @apply -translate-y-1;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dark .hover-lift:hover {
+    box-shadow: 0 10px 25px -5px rgba(155, 135, 245, 0.2);
   }
 }

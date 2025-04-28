@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Blog } from "@/lib/store";
 import { formatDistanceToNow } from "date-fns";
+import { Heart, MessageSquare } from "lucide-react";
 
 interface BlogCardProps {
   blog: Blog;
@@ -32,8 +33,18 @@ export function BlogCard({ blog }: BlogCardProps) {
           {blog.excerpt}
         </p>
       </CardContent>
-      <CardFooter className="p-4 pt-0 text-xs text-muted-foreground">
-        {formatDistanceToNow(new Date(blog.updatedAt), { addSuffix: true })}
+      <CardFooter className="p-4 pt-0 flex items-center justify-between text-xs text-muted-foreground">
+        <span>{formatDistanceToNow(new Date(blog.updatedAt), { addSuffix: true })}</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center">
+            <Heart className="h-3 w-3 mr-1 text-pink-500" />
+            {blog.likes}
+          </div>
+          <div className="flex items-center">
+            <MessageSquare className="h-3 w-3 mr-1" />
+            {blog.comments.length}
+          </div>
+        </div>
       </CardFooter>
     </Card>
   );
